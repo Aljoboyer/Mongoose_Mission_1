@@ -21,9 +21,31 @@ export const studentQueryController = async (req: Request, res: Response) => {
     //     {$match: {class: '1', section: 'B'}}
     // ]).project({name: 1, class: 1})
 
-    const data = await Student.aggregate([
-        {$match: {class: '1', section: 'B'}}
-    ]).project({name: 1, class: 1})
+        /* -----------Adding field to object------- */
 
+    // const data = await Student.aggregate([
+    //     {$addFields: {
+    //         averageNumber: {
+    //             $floor: { $multiply: [ { $rand: {} }, 100 ] }
+    //         }
+    //     }
+    //   },
+    // // {
+    // //     $addFields: {SchoolName: 'Joybangla School'}
+    // // },
+    //   { $out: "students" },
+    // ])
+
+    /* -----------Grouping with unique value------- */
+    
+    // const data = await Student.aggregate([
+    //     {$group: {_id: {averageNumber : "$averageNumber", name: "$name", class: "$class"}}}
+    // ])
+    
+    const data = await Student.aggregate([
+
+        { $group: { _id:  "$section", count: { $sum: 1 } } },
+
+    ])
     res.send(data)
 }

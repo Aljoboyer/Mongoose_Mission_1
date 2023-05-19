@@ -18,6 +18,12 @@ export const studentSchema = new Schema<IStudent>({
    class:{
     type: String
    },
+   averageNumber: {
+      type: Number
+   },
+   SchoolName:{
+      type: String
+   }
 })
 
 export const Student =  mongoose.model<IStudent>("Students", studentSchema);

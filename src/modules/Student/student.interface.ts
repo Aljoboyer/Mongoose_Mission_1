@@ -3,7 +3,9 @@ export interface IStudent{
     roll: number,
     class: string,
     section: string,
-    relagion: string
+    relagion: string,
+    averageNumber: number,
+    SchoolName: string
 }
 
 // [
