@@ -81,12 +81,25 @@ export const studentQueryController = async (req: Request, res: Response) => {
     //     {$group: {_id: {class : "$section"}}} 
     // ])
 
+    // const data = await Student.aggregate([
+    //     {
+    //         $unwind : "$subjectsMarks"
+    //     },
+    //     {$group: {_id: "$subjectsMarks"}} 
+    // ])
+
     const data = await Student.aggregate([
+        {$match: {class: "4"}},
         {
-            $unwind : "$subjectsMarks"
-        },
-        {$group: {_id: "$subjectsMarks"}} 
+            $lookup: {
+                from: 'users',
+                localField: 'class', // Replace 'userId' with the appropriate field from the 'Student' collection
+                foreignField: 'password', // Replace '_id' with the appropriate field from the 'users' collection
+                as: 'personalData' // Optionally, specify the name of the field to store the lookup results
+            }
+        }
     ])
 
     res.send(data)
 }
+
