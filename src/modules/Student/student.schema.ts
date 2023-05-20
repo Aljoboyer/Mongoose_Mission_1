@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { IStudent } from "./student.interface";
+import { IStudent, SubjectsMarks } from "./student.interface";
 
 
 export const studentSchema = new Schema<IStudent>({
@@ -23,6 +23,9 @@ export const studentSchema = new Schema<IStudent>({
    },
    SchoolName:{
       type: String
+   },
+   subjectsMarks:{
+      type: Array<SubjectsMarks>
    }
 })
 
