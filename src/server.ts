@@ -16,10 +16,12 @@ app.use(express.urlencoded({extended: true}))
 
 import UserRoute from './modules/User/user.routes'
 import StudentRoute from './modules/Student/student.routes'
+import PracticeRoute from './modules/Practice/practice.routes'
 
 
 app.use("/user", UserRoute);
 app.use("/student", StudentRoute);
+app.use("/practice", PracticeRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
