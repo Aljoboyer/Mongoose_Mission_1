@@ -45,7 +45,7 @@ export const PracticeAggregationController = async (req: Request, res: Response)
     ])
 
     const data1 = await PracticeCollection.aggregate([
-        //-------------Geting specific field while doing group---------------//
+        //-------------Geting first document specific field while doing group---------------//
         // { $group: { 
         //   _id: "$favorites.movie",
         //   name: { $first: "$name" },
@@ -124,8 +124,33 @@ export const PracticeAggregationController = async (req: Request, res: Response)
 
       //---------Task 13: Find the user(s) with the longest name.------------//
       const data8 = await PracticeCollection.aggregate([  
-
+        {
+          $project: {
+            stringLength: { $strLenCP: "$name" },
+            name: 1
+          }
+        },
+        {
+          $sort: { stringLength: -1 } // Sort documents by score in descending order
+        },
+        {
+          $limit: 1 // Retrieve only the first document (highest score)
+        },
       ]);
 
-    res.send(data8)
+      //---------Task 14: Calculate each state's total number of users in the address field.------------//
+      const data9 = await PracticeCollection.aggregate([  
+        {
+          $group: {
+            _id: "$address.state",
+            count: {$sum: 1}
+          }
+        }
+      ]);
+
+      //---------Task 14: Find the user(s) with the highest number of friends.------------//
+      const data10 = await PracticeCollection.aggregate([  
+
+      ]);
+    res.send(data10)
 }
