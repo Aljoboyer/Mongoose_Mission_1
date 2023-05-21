@@ -97,16 +97,35 @@ export const PracticeAggregationController = async (req: Request, res: Response)
         }
       ]);
 
-    //---------Find the most common favorite food among all users.------------//
+    //---------Task 12: Find the most common favorite food among all users.------------//
     const data5 = await PracticeCollection.aggregate([
-        {
-            $group: {
-                _id: 'favorite.food',
-                totalNumber: { $sum: 1 },
-
-            }
-        },
-        
+            {
+                $group: {
+                    _id: '$favorites.food',
+                    totalNumber: { $sum: 1 },
+                }
+            },
+            {
+              $sort: { totalNumber: -1 }
+            },
+            {
+              $limit: 1
+            },
         ]);
-    res.send(data5)
+    const data6 = await PracticeCollection.find({"favorites.food" : data5[0]?._id})
+
+    //---------Task 13: Calculate the total count of friends across all users.------------//
+    const data7 = await PracticeCollection.aggregate([
+      {
+        $unwind : "$friends"
+      },
+      
+    ]);
+
+      //---------Task 13: Find the user(s) with the longest name.------------//
+      const data8 = await PracticeCollection.aggregate([  
+
+      ]);
+
+    res.send(data8)
 }
